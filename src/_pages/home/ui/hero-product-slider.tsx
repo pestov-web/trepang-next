@@ -17,12 +17,12 @@ export function HeroProductSlider({ products }: { products: Product[] }) {
 
   return <div className="relative self-end pb-2 sm:pb-8 lg:self-center lg:pb-0" aria-roledescription="карусель" aria-label="Популярные товары">
     <div className="overflow-hidden rounded-[32px] border border-white/70 bg-white shadow-[0_28px_80px_rgb(24_64_52/.14)]">
-      <Link href={`/products/${product.slug}`} className="group grid min-h-[260px] grid-cols-[1fr_1.05fr] focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[#1f6b54] sm:min-h-[360px] lg:min-h-[500px] lg:grid-cols-[3fr_2fr]" aria-label={`Открыть товар: ${product.name}`}>
-        <div className="relative min-h-[260px] w-full overflow-hidden bg-[#edf3ef] sm:min-h-[360px] lg:min-h-[500px]">
+      <Link href={`/products/${product.slug}`} className="group grid min-h-[260px] grid-cols-[1fr_1.05fr] focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[#1f6b54] sm:min-h-[360px] lg:min-h-[470px] lg:grid-cols-[56fr_44fr]" aria-label={`Открыть товар: ${product.name}`}>
+        <div className="relative min-h-[260px] w-full overflow-hidden bg-[#edf3ef] sm:min-h-[360px] lg:min-h-[470px]">
           <Image key={product.images[0]} src={product.images[0] || "/images/logo.png"} alt={product.name} fill preload={active === 0} sizes="(max-width:1024px) 48vw,25vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
           {product.discount > 0 ? <span className="absolute left-4 top-4 rounded-full bg-[#df7457] px-3 py-1.5 text-xs font-extrabold text-white">−{product.discount}%</span> : null}
         </div>
-        <div className="flex min-w-0 flex-col bg-[#f4f8f5] p-5 sm:p-7 lg:p-8">
+        <div className="flex min-w-0 flex-col bg-[#f4f8f5] p-5 sm:p-7">
           <div className="hidden items-center justify-between text-xs font-bold uppercase tracking-[.14em] text-[#1f6b54]/55 sm:flex" aria-hidden="true">
             <span>Доктор Панг</span>
             <span className="tabular-nums">{slideNumber} / {slideCount}</span>
