@@ -29,3 +29,10 @@ SQLite и локальные загрузки требуют постоянно�
 ```bash
 pnpm check
 ```
+
+## Деплой
+
+Push в ветку `main` запускает GitHub Actions на self-hosted runner с меткой `trepang`.
+Workflow устанавливает зависимости, запускает линтер и production-сборку, затем переключает
+PM2-приложение `trepang-dev` на новый release. Постоянные данные находятся в
+`/home/mwk/trepang-production/shared`, отдельно от release-директорий.

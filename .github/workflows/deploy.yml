@@ -1,0 +1,66 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: trepang-dev-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Check, build and deploy
+    runs-on: [self-hosted, Linux, X64, trepang]
+    timeout-minutes: 20
+    env:
+      APP_ROOT: /home/mwk/trepang-production
+      NPM_CONFIG_REGISTRY: https://registry.npmmirror.com
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Activate Node.js 24 and pnpm
+        run: |
+          eval "$($HOME/.local/share/fnm/fnm env --shell bash)"
+          fnm use 24
+          echo "$(dirname "$(command -v node)")" >> "$GITHUB_PATH"
+          node --version
+          pnpm --version
+
+      - name: Create release
+        id: release
+        run: |
+          release="$APP_ROOT/releases/$GITHUB_SHA"
+          mkdir -p "$release" "$APP_ROOT/shared/data" "$APP_ROOT/shared/uploads"
+          rsync -a --delete \
+            --exclude .git \
+            --exclude .next \
+            --exclude node_modules \
+            --exclude data \
+            --exclude public/uploads \
+            "$GITHUB_WORKSPACE/" "$release/"
+          mkdir -p "$release/public"
+          ln -sfn "$APP_ROOT/shared/data" "$release/data"
+          ln -sfn "$APP_ROOT/shared/uploads" "$release/public/uploads"
+          ln -sfn "$APP_ROOT/shared/.env.production" "$release/.env.production"
+          echo "path=$release" >> "$GITHUB_OUTPUT"
+
+      - name: Install, lint and build
+        working-directory: ${{ steps.release.outputs.path }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm check
+
+      - name: Switch release
+        env:
+          RELEASE_PATH: ${{ steps.release.outputs.path }}
+        run: |
+          ln -sfn "$RELEASE_PATH" "$APP_ROOT/current"
+          cd "$RELEASE_PATH"
+          pm2 startOrReload ecosystem.config.cjs --update-env
+          pm2 save
+
+      - name: Verify application
+        run: curl --fail --silent --show-error --retry 10 --retry-delay 1 http://127.0.0.1:3333/ >/dev/null
