@@ -4,6 +4,7 @@ import path from "node:path";
 import type { CustomerRequest } from "@/shared/api";
 
 const db = new DatabaseSync(path.join(process.cwd(), "data", "trepang.sqlite"));
+db.exec("PRAGMA busy_timeout=10000");
 db.exec(`CREATE TABLE IF NOT EXISTS customer_requests (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,

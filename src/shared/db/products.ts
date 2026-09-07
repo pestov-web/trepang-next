@@ -6,6 +6,7 @@ import type { Product } from "@/shared/api";
 
 mkdirSync(path.join(process.cwd(),"data"),{recursive:true});
 const db=new DatabaseSync(path.join(process.cwd(),"data","trepang.sqlite"));
+db.exec("PRAGMA busy_timeout=10000");
 db.exec(`PRAGMA journal_mode=WAL; CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT,slug TEXT UNIQUE NOT NULL,name TEXT NOT NULL,short_description TEXT NOT NULL DEFAULT '',description TEXT NOT NULL DEFAULT '',price INTEGER NOT NULL DEFAULT 0,discount INTEGER NOT NULL DEFAULT 0,ozon_url TEXT NOT NULL DEFAULT '',wb_url TEXT NOT NULL DEFAULT '',active INTEGER NOT NULL DEFAULT 1,sort_order INTEGER NOT NULL DEFAULT 0,images TEXT NOT NULL DEFAULT '[]',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`);
 const seed=[
 ["trepang-na-medu","Трепанг на меду",2800,"250511457",["dp1.webp","dp1-2.webp","dp1-3.webp","dp1-4.webp","dp1-5.webp"]],
