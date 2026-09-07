@@ -19,7 +19,7 @@ jobs:
       NPM_CONFIG_REGISTRY: https://registry.npmmirror.com
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Activate Node.js 24 and pnpm
         run: |
