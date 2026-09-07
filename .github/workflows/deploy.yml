@@ -65,7 +65,10 @@ jobs:
           ln -s "$APP_ROOT/shared/.env.production" "$RELEASE_PATH/.env.production"
           ln -sfn "$RELEASE_PATH" "$APP_ROOT/current"
           cd "$RELEASE_PATH"
-          pm2 startOrReload ecosystem.config.cjs --update-env
+          # PM2 keeps the original working directory during startOrReload,
+          # which leaves Next.js serving the previous immutable release.
+          pm2 delete trepang-dev || true
+          pm2 start ecosystem.config.cjs
           pm2 save
 
       - name: Verify application
