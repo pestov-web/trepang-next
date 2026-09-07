@@ -32,7 +32,7 @@ jobs:
       - name: Create release
         id: release
         run: |
-          release="$APP_ROOT/releases/$GITHUB_SHA"
+          release="$APP_ROOT/releases/$GITHUB_SHA-$GITHUB_RUN_ID"
           mkdir -p "$release" "$APP_ROOT/shared/data" "$APP_ROOT/shared/uploads"
           rsync -a --delete \
             --exclude .git \
@@ -41,10 +41,8 @@ jobs:
             --exclude data \
             --exclude public/uploads \
             "$GITHUB_WORKSPACE/" "$release/"
-          mkdir -p "$release/public"
-          ln -sfn "$APP_ROOT/shared/data" "$release/data"
-          ln -sfn "$APP_ROOT/shared/uploads" "$release/public/uploads"
-          ln -sfn "$APP_ROOT/shared/.env.production" "$release/.env.production"
+          mkdir -p "$release/data" "$release/public/uploads"
+          cp "$APP_ROOT/shared/.env.production" "$release/.env.production"
           echo "path=$release" >> "$GITHUB_OUTPUT"
 
       - name: Install, lint and build
@@ -57,6 +55,14 @@ jobs:
         env:
           RELEASE_PATH: ${{ steps.release.outputs.path }}
         run: |
+          cp -an "$RELEASE_PATH/data/." "$APP_ROOT/shared/data/"
+          find "$RELEASE_PATH/data" -mindepth 1 -delete
+          find "$RELEASE_PATH/public/uploads" -mindepth 1 -delete
+          rmdir "$RELEASE_PATH/data" "$RELEASE_PATH/public/uploads"
+          ln -s "$APP_ROOT/shared/data" "$RELEASE_PATH/data"
+          ln -s "$APP_ROOT/shared/uploads" "$RELEASE_PATH/public/uploads"
+          unlink "$RELEASE_PATH/.env.production"
+          ln -s "$APP_ROOT/shared/.env.production" "$RELEASE_PATH/.env.production"
           ln -sfn "$RELEASE_PATH" "$APP_ROOT/current"
           cd "$RELEASE_PATH"
           pm2 startOrReload ecosystem.config.cjs --update-env
