@@ -69,4 +69,4 @@ jobs:
           pm2 save
 
       - name: Verify application
-        run: curl --fail --silent --show-error --retry 10 --retry-delay 1 http://127.0.0.1:3333/ >/dev/null
+        run: curl --fail --silent --show-error --retry 15 --retry-connrefused --retry-delay 1 http://127.0.0.1:3333/ >/dev/null
