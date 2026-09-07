@@ -9,7 +9,7 @@ export function ProductCard({ product }: { product: Product }) {
   return <article className="group flex h-full flex-col overflow-hidden rounded-[28px] border border-black/[.06] bg-white shadow-[0_12px_40px_rgb(23_53_45/.07)] transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_48px_rgb(23_53_45/.12)]">
     <Link href={href} className="relative block aspect-[3/4] overflow-hidden bg-[#edf3ef] focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#1f6b54]">
       {product.discount > 0 ? <span className="absolute left-4 top-4 z-10 rounded-full bg-[#df7457] px-3 py-1.5 text-xs font-extrabold text-white">−{product.discount}%</span> : null}
-      <Image src={product.images[0] || "/images/logo.png"} alt={product.name} fill sizes="(max-width:640px) calc(100vw - 32px),(max-width:1024px) 50vw,(max-width:1280px) 33vw,25vw" className="object-cover [transform:scaleY(1.08)] transition-transform duration-500 group-hover:[transform:scale(1.025,1.107)] motion-reduce:transition-none" />
+      <Image src={product.images[0] || "/images/logo.png"} alt={product.name} fill sizes="(max-width:640px) calc(100vw - 32px),(max-width:1024px) 50vw,(max-width:1280px) 33vw,25vw" className="object-cover [transform:scaleY(1.04)] transition-transform duration-500 group-hover:[transform:scale(1.025,1.066)] motion-reduce:transition-none" />
       <span className="absolute bottom-4 right-4 rounded-full bg-white/90 px-3 py-1.5 text-xs font-bold text-[#17352d] shadow-sm backdrop-blur">В наличии</span>
     </Link>
     <div className="flex flex-1 flex-col p-4 sm:p-5 sm:pt-4">

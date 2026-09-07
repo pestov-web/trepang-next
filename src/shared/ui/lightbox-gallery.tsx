@@ -34,7 +34,7 @@ export function LightboxGallery({ images, name, variant = "product" }: Props) {
   return <>
     <div className={isProduct ? "grid grid-cols-2 gap-3" : "grid gap-4 sm:grid-cols-2 lg:grid-cols-3"}>
       {images.map((src, index) => <button type="button" onClick={() => setCurrent(index)} aria-label={`Увеличить: ${name}, изображение ${index + 1}`} className={`group relative aspect-[3/4] cursor-zoom-in overflow-hidden bg-[#edf3ef] text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f6b54] ${isProduct && index === 0 ? "col-span-2 rounded-3xl" : "rounded-2xl"}`} key={src}>
-        <Image src={src} alt={`${name}, изображение ${index + 1}`} fill sizes={isProduct && index === 0 ? "(max-width:1024px) 100vw,54vw" : "(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw"} className="object-cover [transform:scaleY(1.08)]" preload={isProduct && index === 0} />
+        <Image src={src} alt={`${name}, изображение ${index + 1}`} fill sizes={isProduct && index === 0 ? "(max-width:1024px) 100vw,54vw" : "(max-width:640px) 100vw,(max-width:1024px) 50vw,33vw"} className="object-cover [transform:scaleY(1.04)]" preload={isProduct && index === 0} />
         <span className="absolute bottom-4 right-4 grid size-11 place-items-center rounded-full bg-white/90 text-[#17352d] opacity-0 shadow-md backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"><ZoomIn aria-hidden="true" size={20} /></span>
       </button>)}
     </div>
