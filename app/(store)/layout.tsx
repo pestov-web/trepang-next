@@ -1,0 +1,4 @@
+import { StoreShell } from "@/_app/layouts";
+import { SITE } from "@/shared/config/site";
+const structured={"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":`${SITE.url}/#organization`,name:SITE.name,url:SITE.url,email:SITE.email,telephone:SITE.phone,logo:`${SITE.url}/images/logo.png`,address:{"@type":"PostalAddress",addressLocality:"Владивосток",addressCountry:"RU"},contactPoint:{"@type":"ContactPoint",telephone:SITE.phone,contactType:"customer service",areaServed:"RU",availableLanguage:"Russian"}},{"@type":"WebSite","@id":`${SITE.url}/#website`,url:SITE.url,name:SITE.name,description:SITE.description,inLanguage:"ru-RU",publisher:{"@id":`${SITE.url}/#organization`}}]};
+export default function Layout({children}:{children:React.ReactNode}){return <StoreShell><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structured).replace(/</g,"\\u003c")}}/>{children}</StoreShell>}

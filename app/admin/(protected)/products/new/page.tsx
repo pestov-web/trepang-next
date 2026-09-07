@@ -1,0 +1,1 @@
+import Link from "next/link"; import { ProductForm } from "@/_pages/admin"; export const metadata={title:"Новый товар"}; export default function Page(){return <main className="container-page py-10"><Link href="/admin" className="text-sm font-bold">← К товарам</Link><h1 className="my-7 text-4xl font-extrabold">Новая карточка</h1><ProductForm/></main>}

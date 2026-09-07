@@ -1,0 +1,1 @@
+export type Product = { id:number; slug:string; name:string; shortDescription:string; description:string; price:number; discount:number; ozonUrl:string; wbUrl:string; active:boolean; sortOrder:number; images:string[]; createdAt:string; updatedAt:string };

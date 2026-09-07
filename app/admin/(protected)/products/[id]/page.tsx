@@ -1,0 +1,2 @@
+import Link from "next/link"; import { notFound } from "next/navigation"; import { ProductForm } from "@/_pages/admin"; import { getProductById } from "@/shared/db";
+export default async function Page({params}:PageProps<"/admin/products/[id]">){const {id}=await params;const product=getProductById(Number(id));if(!product)notFound();return <main className="container-page py-10"><Link href="/admin" className="text-sm font-bold">← К товарам</Link><h1 className="my-7 text-4xl font-extrabold">Редактирование</h1><ProductForm product={product}/></main>}
